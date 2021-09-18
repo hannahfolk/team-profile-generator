@@ -13,34 +13,35 @@ const getInfo = async (info = []) => {
     {
       type: "input",
       message: "What is the employee's name?",
-      name: "name"
+      name: "name",
     },
     {
       type: "input",
       message: "What is their email?",
-      name: "email"
+      name: "email",
     },
     {
       type: "number",
       message: "What is their ID?",
-      name: "id"
+      name: "id",
     },
     {
       type: "input",
       message: "Are they an engineer, intern, or manager?",
-      name: "role"
+      name: "role",
     },
     {
       type: "input",
-      message: "If an engineer, enter their GitHub username. If an intern, enter their school. If a manager, enter their office number.",
-      name: "roleInfo"
+      message:
+        "If an engineer, enter their GitHub username. If an intern, enter their school. If a manager, enter their office number.",
+      name: "roleInfo",
     },
     {
       type: "confirm",
       message: "Would you like to add another employee?",
       name: "confirm",
-      default: true
-    }
+      default: true,
+    },
   ];
 
   const { confirm, ...employeeInfo } = await inquirer.prompt(prompts);
@@ -55,15 +56,30 @@ async function main() {
 
   // Create a new employee array to put all the employees in the proper constructors
   const newEmployees = [];
-  employees.forEach(element => {
+  employees.forEach((element) => {
     if (element.role === "engineer") {
-      const engineer = new Engineer(element.name, element.id, element.email, element.roleInfo);
+      const engineer = new Engineer(
+        element.name,
+        element.id,
+        element.email,
+        element.roleInfo
+      );
       newEmployees.push(engineer);
     } else if (element.role === "intern") {
-      const intern = new Intern(element.name, element.id, element.email, element.roleInfo);
+      const intern = new Intern(
+        element.name,
+        element.id,
+        element.email,
+        element.roleInfo
+      );
       newEmployees.push(intern);
     } else if (element.role === "manager") {
-      const manager = new Manager(element.name, element.id, element.email, element.roleInfo);
+      const manager = new Manager(
+        element.name,
+        element.id,
+        element.email,
+        element.roleInfo
+      );
       newEmployees.push(manager);
     }
   });
@@ -71,7 +87,6 @@ async function main() {
   // Create a cards for each employee using template literal and string (haha pun intended) them all together
   let cards = "";
   for (let i = 0; i < newEmployees.length; i++) {
-    
     const newCard = `const divCard${i} = $("<div>");
       const divCardHead${i} = $("<div>");
       const h4El${i} = $("<h4>");
@@ -112,7 +127,9 @@ async function main() {
 
       if ("${newEmployees[i].getRole()}" === "Engineer") {
           infoEl${i}.text("GitHub: ");
-          gitHubA${i}.attr("href", "https://github.com/${newEmployees[i].github}/");
+          gitHubA${i}.attr("href", "https://github.com/${
+      newEmployees[i].github
+    }/");
           gitHubA${i}.text("${newEmployees[i].github}");
           infoEl${i}.append(gitHubA${i});
       } else if ("${newEmployees[i].getRole()}" === "Intern") {
@@ -132,9 +149,9 @@ async function main() {
       ulEl${i}.append(idEl${i});
       ulEl${i}.append(emailEl${i});
       emailEl${i}.append(emailA${i});
-      ulEl${i}.append(infoEl${i});`
+      ulEl${i}.append(infoEl${i});`;
 
-      cards += newCard;
+    cards += newCard;
   }
 
   // Write the HTML file with the team profile
@@ -142,7 +159,6 @@ async function main() {
     if (err) throw err;
     console.log("Done!");
   });
-
-};
+}
 
 main();
